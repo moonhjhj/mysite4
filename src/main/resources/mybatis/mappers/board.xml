@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+	<resultMap type="com.javaex.vo.BoardVo"	id="resultMapList">
+		<result column="reg_date" property="regDate" />
+<!-- 		<result column="user_no" property="userNo" /> -->
+	</resultMap>
+	
+	<select id="getBoardList" resultType="com.javaex.vo.BoardVo" resultMap="resultMapList" >
+		<![CDATA[
+		
+			select b.no, b.title, b.hit, b.reg_date, b.user_no, u.name name   
+	 		from board b, users u   
+	 		where b.user_no = u.no   
+	  		order by no desc	 
+	  	]]>  
+	</select>
+	
+	<select id = "boardView" resultType = "com.javaex.vo.BoardVo">
+		<![CDATA[
+		
+			select title, content
+			from board
+		
+		]]>
+	
+	
+	</select>
+
+
+<!-- 	<select id="getBoardList" resultType="com.javaex.vo.BoardVo" resultMap="resultMapList" > -->
+<!-- 	<![CDATA[ -->
+	
+	
+<!-- 		select board.no no, board.title title, board.hit hit, board.reg_date regDate, board.user_no userNo, users.name name   -->
+<!-- 		from board, users  -->
+<!-- 		where board.user_no = users.no   -->
+<!-- 		order by no desc  -->
+<!-- 	]]>  -->
+
+<!-- 	</select> -->
+
+
+	<insert id = "write" parameterType = "com.javaex.vo.BoardVo">
+		<![CDATA[
+		insert into board 
+		values (
+				seq_board_no.nextval
+				, #{title}
+				, #{content}
+				, 0
+				, sysdate
+				, #{user_no}
+				)
+		]]>
+	
+	</insert>
+	
+	
+	<update id = "modify" parameterType="com.javaex.vo.BoardVo">
+		<![CDATA[
+		
+			update board
+			set
+			title = #{title}
+			, content = #{content}
+			, reg_date = sysdate
+			where no = #{no}
+		
+		]]>
+	
+	
+	
+	
+	</update>
+</mapper>

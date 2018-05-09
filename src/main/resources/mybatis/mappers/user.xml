@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="user">
+	
+	
+	<insert id = "insert" parameterType="com.javaex.vo.UserVo">
+		<![CDATA[
+			insert into users 
+			values (
+			seq_user_no.nextval
+			,#{name}
+			,#{email}
+			,#{password}
+			,#{gender}
+			)
+		]]>
+	
+	</insert>
+
+	<select id = "selectUserByEmailPw" parameterType="map" resultType="com.javaex.vo.UserVo">
+<!-- 	map으로 받았고 userVo에 담아서 보내야 함 -->
+<!-- 		세션에 넣을거라 no, name만 있어도 됨 -->
+<!-- 		여기의 #{email}은 우리가 넣어준 key값 -->
+		<![CDATA[
+
+			select no, name 
+			from users 
+			where email = #{email}
+			and password = #{password}
+		]]>
+	</select>
+	
+	<select id = "selectUserForModify" parameterType = "String" resultType="com.javaex.vo.UserVo">
+	
+		<![CDATA[
+			select no, name, email, gender
+			from users
+			where no = #{no}
+		]]>
+	
+	</select>
+	
+	<update id = "update" parameterType = "com.javaex.vo.UserVo" >
+	
+		<![CDATA[
+		
+			update users
+			set 
+			no = #{no}
+			,name = #{name}
+			,email = #{email}
+			,password = #{password}
+			,gender = #{gender}
+			where no = #{no}
+		
+		]]>
+	
+	</update>
+	
+	
+	<select id = "idCheck" parameterType = "String" resultType = "int">
+		<![CDATA[
+			select count(*) 
+			from users
+			where email = #{email}
+		]]>
+	
+	</select>
+</mapper>
